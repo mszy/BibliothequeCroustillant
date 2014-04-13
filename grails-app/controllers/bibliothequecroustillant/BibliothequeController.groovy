@@ -1,6 +1,9 @@
-package bibliothequecroutillant
+package bibliothequecroustillant
 
 import org.springframework.dao.DataIntegrityViolationException
+
+import bibliothequecroustillant.Bibliotheque;
+import bibliothequecroustillant.Livre;
 
 class BibliothequeController {
 
@@ -20,7 +23,7 @@ class BibliothequeController {
     }
 	
 	def rechercheTitreContient(String chaine) {
-		def livres = Livre.list().findAll { it.titre.find(chaine) }
+		def livres = Livre.findByTitreLike( "%${chaine}%" )
 		render view: "recherche", model: [livresInstances: livres]
 	}
 	def rechercheTypeDeDocument(String chaine) {

@@ -1,6 +1,8 @@
-package bibliothequecroutillant
+package bibliothequecroustillant
 
 import org.springframework.dao.DataIntegrityViolationException
+
+import bibliothequecroustillant.Livre;
 
 class LivreController {
 

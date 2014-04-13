@@ -1,4 +1,4 @@
-package bibliothequecroutillant
+package bibliothequecroustillant
 
 class Bibliotheque {
     

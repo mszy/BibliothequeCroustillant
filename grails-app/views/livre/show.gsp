@@ -1,5 +1,5 @@
 
-<%@ page import="bibliothequecroutillant.Livre" %>
+<%@ page import="bibliothequecroustillant.Livre" %>
 <!DOCTYPE html>
 <html>
 	<head>

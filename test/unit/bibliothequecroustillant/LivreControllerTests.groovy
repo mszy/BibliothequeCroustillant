@@ -1,9 +1,13 @@
-package bibliothequecroutillant
+package bibliothequecroustillant
 
 
+
+import grails.test.mixin.*
 
 import org.junit.*
-import grails.test.mixin.*
+
+import bibliothequecroustillant.Livre;
+import bibliothequecroustillant.LivreController;
 
 @TestFor(LivreController)
 @Mock(Livre)
