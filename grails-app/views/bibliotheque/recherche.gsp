@@ -36,6 +36,9 @@
 				</g:each>
 				</tbody>
 			</table>
+			<div class="pagination">
+				<g:paginate total="${livresInstanceTotal}" />
+			</div>
 		</div>
 	</body>
 </html>

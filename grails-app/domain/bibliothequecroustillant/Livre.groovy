@@ -12,12 +12,12 @@ class Livre {
 	TypeDocument typeDocument
 
     static constraints = {
-		nombreExemplairesDispo min: 0, default: 0
-		nombreExemplairesTotal min: 0, default: 0
+		nombreExemplairesDispo min: 0
+		nombreExemplairesTotal min: 0
 		typeDocument nullable: true
     }
 	
 	String toString() {
-		"${titre} de ${auteur}"
+		"${titre}"
 	}
 }

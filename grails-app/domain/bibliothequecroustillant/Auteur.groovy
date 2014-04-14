@@ -7,5 +7,6 @@ class Auteur {
 	static hasMany = [publications: Livre]
 
     static constraints = {
+		prenom nullable: true
     }
 }

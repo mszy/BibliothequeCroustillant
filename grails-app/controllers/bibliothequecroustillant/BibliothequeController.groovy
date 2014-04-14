@@ -22,12 +22,31 @@ class BibliothequeController {
         [bibliothequeInstance: new Bibliotheque(params)]
     }
 	
+	def paginateList(listToPaginate, Integer max, Integer offset) {
+		
+		println "<<<<<<<<<< Max : " + max
+		println "<<<<<<<<<<< Offset : " + offset
+		println "<<<<<<<<<<< Min : " + Math.min(offset+max, listToPaginate.size())
+		listToPaginate.subList(offset, Math.min(offset+max, listToPaginate.size()))
+	 }
+	
 	def rechercheTitreContient(String chaine) {
-		def livres = Livre.findByTitreLike( "%${chaine}%" )
-		render view: "recherche", model: [livresInstances: livres]
+        params.max = 5
+		
+		println ">>>>>>>>>>< Max : " + params.int('max')
+		println ">>>>>>>>>>< Offset : " + params.int('offset')
+				
+//        if ( !chaine ) {
+//            flash.message = message(code: 'default.null.parameter.message', default: "You must specify a valid parameter")
+//            redirect(action: "list")
+//            return
+//        }
+		def livres = Livre.findAllByTitreLike ( "%${chaine}%" )
+		render view: "recherche", model: [livresInstances: paginateList(livres, params.int('max') ?: 5, params.int('offset') ?: 0), livresInstanceTotal: livres.size()]
 	}
 	def rechercheTypeDeDocument(String chaine) {
 		def livres = Livre.list().findAll { it.type.find(chaine) }
+		println livres
 		render view: "recherche", model: [livresInstances: livres]
 	}
     def save() {
