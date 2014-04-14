@@ -1,4 +1,4 @@
-BibliothequeCroutillant
+BibliothequeCroustillant
 =======================
 
-La bibliothèque des semi-croustillants
+La bibliothèque du coté croustillant des semi-croustillants
