@@ -18,7 +18,7 @@
 		<div id="list-bibliotheque" class="content scaffold-list" role="main">
 			<h1><g:message code="default.list.label" args="[entityName]" /></h1>
 			<g:if test="${flash.message}">
-			<div class="message" role="status">${flash.message}</div>
+			<div class="errors" role="status">${flash.message}</div>
 			</g:if>
 			<table>
 				<thead>
@@ -37,7 +37,7 @@
 				</tbody>
 			</table>
 			<div class="pagination">
-				<g:paginate total="${livresInstanceTotal}" />
+				<g:paginate total="${livresInstanceTotal}" params='[chaine: "${chaineRecherche}"]' />
 			</div>
 		</div>
 	</body>

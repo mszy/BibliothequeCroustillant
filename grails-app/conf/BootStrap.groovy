@@ -1,5 +1,6 @@
-import bibliothequecroustillant.Auteur;
+import bibliothequecroustillant.Auteur
 import bibliothequecroustillant.Livre
+import bibliothequecroustillant.TypeDocument
 
 class BootStrap {
 
@@ -14,9 +15,12 @@ class BootStrap {
 				def prenomAuteur = rawAuteur[1]
 				def nomAuteur = rawAuteur[0]
 				auteur = Auteur.findByNom(nomAuteur) ?: new Auteur( nom: nomAuteur, prenom: prenomAuteur )
-			}	
+				auteur.save()
+			}
+			def typeDocument = TypeDocument.findByIntitule(row[1]) ?: new TypeDocument( intitule: row[1] )
+			typeDocument.save()
 		    def livre = new Livre(
-			    typeDocument: row[1],
+			    typeDocument: typeDocument,
 			    titre: row[3],
 			    nombreExemplairesDispo: 10,
 			    nombreExemplairesTotal: 10
