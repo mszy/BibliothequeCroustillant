@@ -103,6 +103,34 @@ class BibliothequeController {
 											livresInstances: paginateList(livres, max, offset),
 											livresInstanceTotal: livres.size()]
 	}
+	def rechercheNbExemplairesDispo(String chaine) {
+		def max = params.max = params.int('max') ?: 5
+		def offset = params.offset = params.int('offset') ?: 0
+		
+		def livres = []
+		if (!chaine) {
+			flash.message = message(code: 'bad.searchparam.message', default: "You must specify a valid search parameter")
+			
+			max = 5
+			offset = 0
+			chaine = ""
+		} else {
+			def nbSaisi = Integer.valueOf(chaine)
+			def queryLivre = Livre.where { nombreExemplairesDispo >= nbSaisi }
+			livres = queryLivre.findAll()
+		}
+				
+		if (offset < 0 || offset > livres.size()) {
+			flash.message = message(code: 'bad.offset.message', default: "You must specify a valid offset")
+			
+			max = 5
+			offset = 0
+		}
+		
+		render view: "recherche", model: [	chaineRecherche: chaine,
+											livresInstances: paginateList(livres, max, offset),
+											livresInstanceTotal: livres.size()]
+	}
     def save() {
         def bibliothequeInstance = new Bibliotheque(params)
         if (!bibliothequeInstance.save(flush: true)) {
