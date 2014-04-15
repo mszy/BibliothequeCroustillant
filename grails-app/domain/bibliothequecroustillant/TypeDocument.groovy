@@ -5,4 +5,8 @@ class TypeDocument {
 	
     static constraints = {
     }
+	
+	String toString() {
+		intitule
+	}
 }
