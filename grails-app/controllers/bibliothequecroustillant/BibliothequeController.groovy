@@ -116,7 +116,7 @@ class BibliothequeController {
 			chaine = ""
 		} else {
 			def nbSaisi = Integer.valueOf(chaine)
-			def queryLivre = Livre.where { nombreExemplairesDispo >= nbSaisi }
+			def queryLivre = Livre.where { qteDispo >= nbSaisi }
 			livres = queryLivre.findAll()
 		}
 				

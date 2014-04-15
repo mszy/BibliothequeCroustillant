@@ -22,6 +22,6 @@
 	<label>
 		<span>Qté disponible</span>
 	</label>
-	<g:field name="qteDispo" min="0" type="number"/>
+	<g:field name="qteDispoRecherche" min="0" type="number"/>
 </div>
 

@@ -2,28 +2,20 @@
 
 
 
-<div class="fieldcontain ${hasErrors(bean: livreInstance, field: 'nombreExemplairesDispo', 'error')} required">
-	<label for="nombreExemplairesDispo">
-		<g:message code="livre.nombreExemplairesDispo.label" default="Nombre Exemplaires Dispo" />
+<div class="fieldcontain ${hasErrors(bean: livreInstance, field: 'qteDispo', 'error')} required">
+	<label for="qteDispo">
+		<g:message code="livre.qteDispo.label" default="Qte Dispo" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:field name="nombreExemplairesDispo" type="number" min="0" value="${livreInstance.nombreExemplairesDispo}" required=""/>
+	<g:field name="qteDispo" type="number" min="0" value="${livreInstance.qteDispo}" required=""/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: livreInstance, field: 'nombreExemplairesTotal', 'error')} required">
-	<label for="nombreExemplairesTotal">
-		<g:message code="livre.nombreExemplairesTotal.label" default="Nombre Exemplaires Total" />
+<div class="fieldcontain ${hasErrors(bean: livreInstance, field: 'qteTotale', 'error')} required">
+	<label for="qteTotale">
+		<g:message code="livre.qteTotale.label" default="Qte Totale" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:field name="nombreExemplairesTotal" type="number" min="0" value="${livreInstance.nombreExemplairesTotal}" required=""/>
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: livreInstance, field: 'typeDocument', 'error')} ">
-	<label for="typeDocument">
-		<g:message code="livre.typeDocument.label" default="Type Document" />
-		
-	</label>
-	<g:select id="typeDocument" name="typeDocument.id" from="${bibliothequecroustillant.TypeDocument.list()}" optionKey="id" value="${livreInstance?.typeDocument?.id}" class="many-to-one" noSelection="['null': '']"/>
+	<g:field name="qteTotale" type="number" min="0" value="${livreInstance.qteTotale}" required=""/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: livreInstance, field: 'auteurs', 'error')} ">
@@ -48,5 +40,13 @@
 		
 	</label>
 	<g:textField name="titre" value="${livreInstance?.titre}"/>
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: livreInstance, field: 'typeDocument', 'error')} required">
+	<label for="typeDocument">
+		<g:message code="livre.typeDocument.label" default="Type Document" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:select id="typeDocument" name="typeDocument.id" from="${bibliothequecroustillant.TypeDocument.list()}" optionKey="id" required="" value="${livreInstance?.typeDocument?.id}" class="many-to-one"/>
 </div>
 

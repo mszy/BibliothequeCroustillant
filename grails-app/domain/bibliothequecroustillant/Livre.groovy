@@ -2,8 +2,8 @@ package bibliothequecroustillant
 
 class Livre {
 	String titre
-	Integer nombreExemplairesTotal
-	Integer nombreExemplairesDispo
+	Integer qteTotale
+	Integer qteDispo
 	
 	static hasMany = [auteurs: Auteur,
 					  reservations: Reservation]
@@ -12,9 +12,8 @@ class Livre {
 	TypeDocument typeDocument
 
     static constraints = {
-		nombreExemplairesDispo min: 0
-		nombreExemplairesTotal min: 0
-		typeDocument nullable: true
+		qteDispo min: 0
+		qteTotale min: 0
     }
 	
 	String toString() {
