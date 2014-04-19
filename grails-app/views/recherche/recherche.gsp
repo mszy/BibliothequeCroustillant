@@ -23,6 +23,8 @@
 				<thead>
 					<tr>
 						<th>
+						</th>
+						<th>
 							Titre
 						</th>
 						<th>
@@ -39,6 +41,20 @@
 				<tbody>
 				<g:each in="${livresInstances}" status="i" var="livre">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
+						<td>
+							<g:if test="${ livre.qteDispo > 0 }">
+								<g:link action="ajouterAuPanier" params='[id: "${ livre.id }",
+																	  titreRecherche: "${titreRecherche}",
+																	  auteurRecherche: "${auteurRecherche}",
+																	  typeDocumentRecherche: "${typeDocumentRecherche}",
+																	  qteDispoRecherche: "${qteDispoRecherche}"]' >
+									<img src="${resource(dir: 'images', file: 'cart.png')}" alt="Ajouter au panier" />
+								</g:link>
+							</g:if>
+							<g:else>
+								<img src="${resource(dir: 'images', file: 'cart_cross.png')}" alt="Article indisponible" />
+							</g:else>
+						</td>
 						<td>
 							${livre.titre}
 						</td>

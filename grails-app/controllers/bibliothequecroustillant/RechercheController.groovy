@@ -1,5 +1,7 @@
 package bibliothequecroustillant
 
+import org.apache.catalina.core.ApplicationContext;
+
 class RechercheController {
 
     def index() {
@@ -46,10 +48,10 @@ class RechercheController {
 	}
 	
 	def recherche() {
-		def titreExiste		= !params.titreRecherche?.isEmpty()
-		def auteurExiste	= !params.auteurRecherche?.isEmpty()
+		def titreExiste		= params.titreRecherche != null && !params.titreRecherche.isEmpty()
+		def auteurExiste	= params.auteurRecherche != null && !params.auteurRecherche.isEmpty()
 		def typeDocExiste	= params.typeDocumentRecherche != null
-		def qteDispoExiste	= !params.qteDispoRecherche?.isEmpty()
+		def qteDispoExiste	= params.qteDispoRecherche != null && !params.qteDispoRecherche.isEmpty()
 		
 		def max = params.max = params.int('max') ?: 5
 		def offset = params.offset = params.int('offset') ?: 0
@@ -69,11 +71,39 @@ class RechercheController {
 			livres = rechercheQteDispo( params.qteDispoRecherche, livres )
 		}
 		
+		if( livres.isEmpty() ) {
+			flash.message = message(code: 'search.noresult.message', default: "There are no results for your search")
+		}
+		
 		render view: "recherche", model: [	titreRecherche: params.titreRecherche,
 											auteurRecherche: params.auteurRecherche,
 											typeDocumentRecherche: params.typeDocumentRecherche,
 											qteDispoRecherche: params.qteDispoRecherche,
 											livresInstances: paginateList(livres, max, offset),
 											livresInstanceTotal: livres.size()]
+	}
+	
+	def ajouterAuPanier( Long id ) {
+		if( session.getAttribute( "panier" ) == null ) {
+			session.setAttribute("panier", [:])
+		}
+		
+		def livreDansPanier = session.getAttribute("panier").find { it.key == id }
+		def valeur
+		if( livreDansPanier == null ) {
+			valeur = 1
+		} else {
+			valeur = session.getAttribute("panier").get( id )
+			valeur++
+			session.getAttribute("panier").get( id )
+		}
+		
+		session.getAttribute("panier").put( (id), valeur )
+		
+		def livre = Livre.get( id )
+		livre.qteDispo--
+		livre.save()
+		
+		redirect action: "recherche", params: params
 	}
 }

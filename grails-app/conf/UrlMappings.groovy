@@ -13,6 +13,9 @@ class UrlMappings {
 		"/recherche/nbExemplaires/$chaine?"(controller: "bibliotheque", action: "rechercheNbExemplairesDispo")
 		"/recherche/nbExemplaires/$chaine/$offset-$max"(controller: "bibliotheque", action: "rechercheNbExemplairesDispo")
 		
+		"/recherche/recherche"(controller: "recherche", action: "recherche")
+		"/recherche/recherche/$offset-$max"(controller: "recherche", action: "recherche")
+		
 		"/$controller/$action?/$id?"{
 			constraints {
 				// apply constraints here

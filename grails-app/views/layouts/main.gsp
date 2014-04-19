@@ -19,6 +19,17 @@
 	</head>
 	<body>
 		<div id="grailsLogo" role="banner"><a href="http://grails.org"><img src="${resource(dir: 'images', file: 'grails_logo.png')}" alt="Grails"/></a></div>
+		<div id="panier">Le panier sera ici. <br />
+			<g:if test="${ session["panier"] != null }">
+				<table>
+					<g:each in="${ session["panier"] }" status="i" var="sessionItem" >
+						<tr>
+							<td>${ sessionItem }</td>
+						</tr>
+					</g:each>
+				</table>
+			</g:if>
+		</div>
 		<g:layoutBody/>
 		<div class="footer" role="contentinfo"></div>
 		<div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>
