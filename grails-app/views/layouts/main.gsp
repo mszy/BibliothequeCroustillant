@@ -31,6 +31,7 @@
 							<th>Auteurs</th>
 							<th>Type de document</th>
 							<th>Quantité</th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -44,6 +45,13 @@
 								</td>
 								<td>${ Livre.get( sessionItem.key ).typeDocument }</td>
 								<td>${ sessionItem.value }</td>
+								<td><g:link action="retirerDuPanier" params='[id: "${ sessionItem.key }",
+																	  titreRecherche: "${titreRecherche}",
+																	  auteurRecherche: "${auteurRecherche}",
+																	  typeDocumentRecherche: "${typeDocumentRecherche}",
+																	  qteDispoRecherche: "${qteDispoRecherche}"]' >
+									<img src="${resource(dir: 'images', file: 'cross.png')}" title="Enlever un exemplaire" alt="Enlever un exemplaire" />
+								</g:link></td>
 							</tr>
 						</g:each>
 					</tbody>

@@ -106,11 +106,22 @@ class RechercheController {
 		
 		session.getAttribute("panier").put( (id), valeur )
 		
-//		def livre = Livre.get( id )
-//		livre.qteDispo--
-//		livre.save()
-		
 		redirect action: "recherche", params: params
+	}
+	
+	def retirerDuPanier( Long id ) {
+		def valeur = session.getAttribute( "panier" ).get( id )
+		if( valeur == 1 ) {
+			session.getAttribute( "panier" ).remove( id )
+		} else {
+			session.getAttribute( "panier" ).put( (id), valeur - 1 )
+		}
+		
+		if( session.getAttribute( "panier" ).size() == 0 ) {
+			session.removeAttribute( "panier" )
+		}
+		
+		redirect( uri: request.getHeader('referer') )
 	}
 	
 	def controlerPanier() {
