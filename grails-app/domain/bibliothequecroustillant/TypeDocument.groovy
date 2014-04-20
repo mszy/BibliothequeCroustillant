@@ -1,10 +1,11 @@
 package bibliothequecroustillant
 
+import java.sql.Timestamp;
+
 class TypeDocument {
 	String intitule
 	
-    static constraints = {
-    }
+	Timestamp version
 	
 	String toString() {
 		intitule
