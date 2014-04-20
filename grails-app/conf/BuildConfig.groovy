@@ -63,3 +63,10 @@ grails.project.dependency.resolution = {
         compile ':cache:1.0.1'
     }
 }
+
+coverage {
+	exclusions = ["**/RechercheController*"]
+}
+
+
+
