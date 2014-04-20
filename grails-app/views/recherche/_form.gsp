@@ -16,7 +16,9 @@
 	<label>
 		<span>Type document</span>
 	</label>
-	<g:select name="typeDocumentRecherche" from="${TypeDocument.list()}"/>
+	<g:select name="typeDocumentRecherche"
+			  from="${ TypeDocument.list()}"
+			  noSelection="['':'- Tout type de document -']" />
 </div>
 <div class="fieldcontain">
 	<label>

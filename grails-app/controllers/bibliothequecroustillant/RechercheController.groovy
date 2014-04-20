@@ -11,6 +11,7 @@ class RechercheController {
 	}
 
     def index() {
+		flash.message = null
 		render( view: "create" )
 	}
 	
@@ -56,7 +57,7 @@ class RechercheController {
 	def recherche() {
 		def titreExiste		= params.titreRecherche != null && !params.titreRecherche.isEmpty()
 		def auteurExiste	= params.auteurRecherche != null && !params.auteurRecherche.isEmpty()
-		def typeDocExiste	= params.typeDocumentRecherche != null
+		def typeDocExiste	= params.typeDocumentRecherche != null && !params.auteurRecherche.isEmpty()
 		def qteDispoExiste	= params.qteDispoRecherche != null && !params.qteDispoRecherche.isEmpty()
 		
 		def max = params.max = params.int('max') ?: 5
@@ -90,6 +91,7 @@ class RechercheController {
 	}
 	
 	def ajouterAuPanier(Long id) {
+		flash.message = null
 		if( session.getAttribute("panier") == null ) {
 			session.setAttribute("panier", [:])
 		}
