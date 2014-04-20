@@ -1,8 +1,14 @@
 package bibliothequecroustillant
 
+import java.text.SimpleDateFormat;
+
 import org.apache.catalina.core.ApplicationContext;
 
 class RechercheController {
+	
+	def formatDate( date ) {
+		new SimpleDateFormat( "EEEE dd MMMM yyyy - HH:mm" ).format( date )
+	}
 
     def index() {
 		render( view: "create" )
@@ -83,14 +89,14 @@ class RechercheController {
 											livresInstanceTotal: livres.size()]
 	}
 	
-	def ajouterAuPanier( Long id ) {
-		if( session.getAttribute( "panier" ) == null ) {
+	def ajouterAuPanier(Long id) {
+		if( session.getAttribute("panier") == null ) {
 			session.setAttribute("panier", [:])
 		}
 		
-		def livreDansPanier = session.getAttribute("panier").find { it.key == id }
+		def livreDansPanier = session.getAttribute("panier").find { it.key == id } != null
 		def valeur
-		if( livreDansPanier == null ) {
+		if( !livreDansPanier ) {
 			valeur = 1
 		} else {
 			valeur = session.getAttribute("panier").get( id )
@@ -100,10 +106,96 @@ class RechercheController {
 		
 		session.getAttribute("panier").put( (id), valeur )
 		
-		def livre = Livre.get( id )
-		livre.qteDispo--
-		livre.save()
+//		def livre = Livre.get( id )
+//		livre.qteDispo--
+//		livre.save()
 		
 		redirect action: "recherche", params: params
+	}
+	
+	def controlerPanier() {
+		
+		def livresAReserver = session.getAttribute("panier")
+		def reservationComplete = true
+		def livresIndisponibles = []
+		
+		if( livresAReserver == null ) {
+			redirect( action: "index" )
+			return
+		}
+		
+		session.getAttribute("panier").each {
+			def livreAAjouter = Livre.get( it.key )
+			if( it.value > livreAAjouter.qteDispo ) {
+				reservationComplete = false
+				livresIndisponibles << it.key
+			}
+		}
+		
+		if ( session.getAttribute("panier").keySet() == livresIndisponibles.toSet() ) {
+			flash.message = message(code: 'cart.allgoodunavailable.message', default: "None of the goods are available.")
+			session.removeAttribute("panier")
+			redirect action: "index"
+			return
+		} else if ( !reservationComplete ) {
+			render view: "correction", model: [ livresIndisponibles: livresIndisponibles ]
+			return
+		}
+		
+		def reservation = validerReservation( livresAReserver )
+		
+		def dateText = formatDate( reservation.dateReservation + 1 )
+		
+		render view: "validation", model: [ livres: livresAReserver,
+											reservationCode: reservation.code,
+											date: dateText ]
+	}
+	
+	def corrigerPanier() {
+		def livresAReserver = session.getAttribute("panier").clone()
+		if( livresAReserver == null ) {
+			redirect( action: "index" )
+			return
+		}
+		
+		def livresIndisponibles = Eval.me( params.livresIndisponibles )
+		livresAReserver.each {
+			if ( livresIndisponibles.contains( it.key as Integer ) ) {
+				it.remove()
+			}
+		}
+		
+		def reservation = validerReservation( livresAReserver )
+		
+		def dateText = formatDate( reservation.dateReservation + 1 )
+		
+		render view: "validation", model: [ livres: livresAReserver,
+											reservationCode: reservation.code,
+											date: dateText ]
+	}
+	
+	def validerReservation( livresAReserver ) {
+		def reservation = new Reservation()
+		reservation.code = Reservation.list().size() + 1
+		reservation.dateReservation = new Date()
+		
+		livresAReserver.each {
+			def livre = Livre.get( it.key )
+			reservation.addToLivresReserves( livre );
+			livre.qteDispo -= it.value
+			livre.save()
+		}
+		
+		reservation.save()
+
+		session.removeAttribute("panier")
+		
+		reservation
+	}
+	
+	def annulerReservation() {
+		session.removeAttribute("panier")
+		
+		redirect action: "index"
 	}
 }

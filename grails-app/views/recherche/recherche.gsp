@@ -1,5 +1,3 @@
-
-<%@ page import="bibliothequecroustillant.Bibliotheque" %>
 <!DOCTYPE html>
 <html>
 	<head>
