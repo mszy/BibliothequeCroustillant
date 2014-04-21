@@ -11,7 +11,6 @@ class RechercheController {
 	}
 
 	def index() {
-		flash.message = null
 		render( view: "create" )
 	}
 
@@ -55,6 +54,7 @@ class RechercheController {
 	}
 
 	def recherche() {
+		flash.message = null
 		def titreExiste		= params.titreRecherche != null && !params.titreRecherche.isEmpty()
 		def auteurExiste	= params.auteurRecherche != null && !params.auteurRecherche.isEmpty()
 		def typeDocExiste	= params.typeDocumentRecherche != null && !params.auteurRecherche.isEmpty()
@@ -79,7 +79,7 @@ class RechercheController {
 		}
 
 		if( livres.isEmpty() ) {
-			flash.message = message(code: 'search.noresult.message', default: "There are no results for your search")
+			flash.message = message(code: 'default.search.noresult.message', default: "There are no results for your search")
 		}
 
 		render view: "recherche", model: [	titreRecherche: params.titreRecherche,
@@ -112,6 +112,7 @@ class RechercheController {
 	}
 
 	def retirerDuPanier( Long id ) {
+		flash.message = null
 		def valeur = session.getAttribute( "panier" ).get( id )
 		if( valeur == 1 ) {
 			session.getAttribute( "panier" ).remove( id )
@@ -127,7 +128,7 @@ class RechercheController {
 	}
 
 	def controlerPanier() {
-
+		flash.message = null
 		def livresAReserver = session.getAttribute("panier")
 		def reservationComplete = true
 		def livresIndisponibles = []
@@ -146,7 +147,7 @@ class RechercheController {
 		}
 
 		if ( session.getAttribute("panier").keySet() == livresIndisponibles.toSet() ) {
-			flash.message = message(code: 'cart.allgoodunavailable.message', default: "None of the goods are available.")
+			flash.message = message(code: 'default.cart.allgoodunavailable.message', default: "None of the goods are available.")
 			session.removeAttribute("panier")
 			redirect action: "index"
 			return
