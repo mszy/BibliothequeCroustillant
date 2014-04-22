@@ -22,6 +22,7 @@ class Livre {
 
 	static mapping = {
 		auteurs lazy: false
+		typeDocument lazy: false
 	}
 
 	String toString() {
